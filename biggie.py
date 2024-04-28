@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import os
 import random
@@ -15,14 +15,22 @@ def main(argv):
     arg_count = int(os.getenv('ARG_COUNT', 10))
     arg_len = int(os.getenv('ARG_LEN', 100))
     proc_count = int(os.getenv('PROC_COUNT', 1))
+    use_biggier = bool(os.getenv('USE_BIGGIER'))
     
     file_path = os.path.realpath(__file__)
+    biggier_path = os.path.dirname(file_path) + "/biggier"
     procs = []
     for i in range(proc_count):
         cmd = get_cmd(arg_count, arg_len)
-        print("starting {} {}".format(file_path, cmd))
-        procs.append(Popen([file_path, *cmd]))
+        if use_biggier:
+            procs.append(Popen([biggier_path, *cmd]))
+        else:
+            print("starting {} {}".format(file_path, cmd))
+            procs.append(Popen([file_path, *cmd]))
     
+    if use_biggier:
+        print("done starting processes")
+
     for p in procs:
         p.wait()
 
