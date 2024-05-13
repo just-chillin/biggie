@@ -22,7 +22,8 @@ def main(argv):
     biggier_path = os.path.dirname(file_path) + "/biggier"
     procs = []
     for i in range(proc_count):
-        cmd = get_cmd(arg_count, arg_len)
+        args = ''.join(random.choices(string.ascii_uppercase + string.digits, k=arg_len))
+        cmd = get_cmd(arg_count, args)
         if use_biggier:
             procs.append(Popen([biggier_path, *cmd]))
         else:
@@ -35,11 +36,10 @@ def main(argv):
     for p in procs:
         p.wait()
 
-def get_cmd(arg_count, arg_len):
+def get_cmd(arg_count, args):
     args = ['pause']
     for _ in range(arg_count):
-        a = ''.join(random.choices(string.ascii_uppercase + string.digits, k=arg_len))
-        args.append(a)
+        args.append(args)
     return args
     
 if __name__ == '__main__':
