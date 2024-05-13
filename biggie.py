@@ -6,6 +6,7 @@ import string
 from subprocess import Popen
 import signal
 import sys
+import resource
 
 def main(argv):
     if len(argv) > 1 and argv[1] == "pause":
